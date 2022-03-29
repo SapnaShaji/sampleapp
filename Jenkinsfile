@@ -1,4 +1,6 @@
 def filepath = "C:/ProgramData/jenkins/.jenkins/workspace/dotnetappscm/aspnet-core-dotnet-core/aspnet-core-dotnet-core.csproj"
+def file = "aspnet-core-dotnet-core/bin/Debug/netcoreapp1.1/publish"
+def TargetPath = "D:/jfrog/"
 
 
 pipeline 
@@ -24,7 +26,7 @@ pipeline
                     {
                         bat "\"${scannerHome}\\SonarScanner.MSBuild.exe\" begin /k:\"demo\""
                         
-			                  bat "dotnet build ${filepath}"    
+			bat "dotnet build ${filepath}"    
                         bat "\"${scannerHome}\\SonarScanner.MSBuild.exe\" end"
                     }
                 }
@@ -40,6 +42,7 @@ pipeline
         {
             steps
             {
+		echo "Builds the project and its dependencies"
                 bat "dotnet build ${filepath}"
 		   
             }
@@ -68,7 +71,7 @@ pipeline
                 echo "Deploying to stage environment for more tests!";
                 bat "del *.zip"
                 
-		            bat "tar.exe -a -c -f WebApp_${BUILD_NUMBER}.zip aspnet-core-dotnet-core/bin/Debug/netcoreapp1.1/publish"
+			bat "tar.exe -a -c -f WebApp_${BUILD_NUMBER}.zip ${file}"
                 }
         }
         
@@ -92,7 +95,7 @@ pipeline
                   spec: '''{
                    "files": [
                       {
-                      "pattern": "*.zip",
+                      "pattern": "${WORKSPACE}/WebApp_${BUILD_NUMBER}.zip",
                       "target": "Sapna-dotnet-app"
                       }
                             ]
@@ -120,7 +123,7 @@ stage ('download the artifacts from artifactory')
                                 "files": [
                                   {
                                     "pattern": "Sapna-dotnet-app/WebApp_${BUILD_NUMBER}.zip",
-                                    "target": "D:/jfrog/"          
+                                    "target": "${TargetPath}"          
                                   }
                                ]
                               }"""
