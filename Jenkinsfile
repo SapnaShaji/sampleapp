@@ -5,12 +5,12 @@ def targetPath = "D:/jfrog/"
 
 pipeline 
 {
-    environment
+  /*  environment
     {
         appName = "sapna-webapp"
         resourceGroup = "Training-rg"
        
-    }
+    }*/
     agent any	
 	stages 
 	{
@@ -144,7 +144,8 @@ stage ('download the artifacts from artifactory')
 	   steps
 		{
 
-			azureWebAppPublish appName: "${env.appName}", azureCredentialsId: 'Azure', resourceGroup: "${env.resourceGroup}"
+			//azureWebAppPublish appName: "${env.appName}", azureCredentialsId: 'Azure', resourceGroup: "${env.resourceGroup}"
+			azureWebAppPublish azureCredentialsId: params.Credentials_id , resourceGroup: params.ResourceGroup , appName: params.WebApp
 	    }
 	}
 	}
