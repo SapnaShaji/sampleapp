@@ -1,6 +1,6 @@
 def filepath = "C:/ProgramData/jenkins/.jenkins/workspace/dotnetappscm/aspnet-core-dotnet-core/aspnet-core-dotnet-core.csproj"
 def file = "aspnet-core-dotnet-core/bin/Debug/netcoreapp1.1/publish"
-def TargetPath = "D:/jfrog/"
+def targetPath = "D:/jfrog/"
 
 
 pipeline 
@@ -123,7 +123,7 @@ stage ('download the artifacts from artifactory')
                                 "files": [
                                   {
                                     "pattern": "Sapna-dotnet-app/WebApp_${BUILD_NUMBER}.zip",
-                                    "target": "${TargetPath}"          
+                                    "target": "${targetPath}"          
                                   }
                                ]
                               }"""
